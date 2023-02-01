@@ -1,8 +1,14 @@
 const express = require("express");
 const app = express();
 
-app.get("/", (req,res) =>{
-    res.send("OK");
+const db = require("./api/services/database.service");
+
+app.get("/", async (req,res) =>{
+    const start = new Date();
+    const result = await db.query("SHOW tables ;");
+    const stop = new Date();
+    const duration = stop.getTime() - start.getTime();
+    res.json({duration,result});
 });
 
 app.get('/test', (req,res) =>{
