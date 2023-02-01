@@ -11,13 +11,34 @@ app.get("/", async (req,res) =>{
     res.json({duration,result});
 });
 
-app.get('/test', (req,res) =>{
-    res.send("test");
+
+
+app.get('/theme', async (req,res) =>{
+    // récupérer toutes les lignes de la table THEME 
+    const result = await db.query("SELECT * from theme ;");
+    res.json({result});
 });
 
-app.get("*", (req,res) =>{
-    res.send("**** test");
+app.get('/article', async (req,res) =>{
+    // récupérer toutes les lignes de la table article 
+    const result = await db.query("SELECT * from article ;");
+    res.json({result});
 });
+
+// récupérer la ligne de la table theme qui a pour id:id
+app.get('/theme/:id', async (req, res) => {
+    const id = req.params.id;
+    const result = await db.query(`SELECT * from theme WHERE Id_theme='${id}';`);
+    res.json({ result });
+});
+
+// récupérer la ligne de la table article qui a pour id:id
+app.get('/article/:id', async (req, res) => {
+    const id = req.params.id;
+    const result = await db.query(`SELECT * from article WHERE Id_article='${id}';`);
+    res.json({ result });
+});
+
 
 const PORT = 5000
 app.listen(PORT, ()=>{
