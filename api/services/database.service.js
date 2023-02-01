@@ -9,7 +9,8 @@ async function connect(){
             {
                 host: "localhost",
                 user: "root",
-                database: "tp_mvc"
+                // database: "tp_mvc"
+                database: "tpmvc"
             }
         );
     }
