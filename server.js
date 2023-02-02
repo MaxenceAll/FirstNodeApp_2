@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
-const cors = require("cors");
+app.use(express.json());
 
+const cors = require("cors");
 app.use(cors());
+
 
 const db = require("./api/services/database.service");
 
@@ -42,6 +44,29 @@ app.get('/product/:id', async (req, res) => {
     res.json( result );
 });
 
+app.post('/', async (req, res) => {
+    const body = req.body;
+
+    if (req.headers["content-type"]=="addProduct")
+    {
+        // console.log("if OK");
+        const result = await db.query
+        (`INSERT INTO product (title, content, img_src, theme_id, isDeleted) VALUES ("${body.title}", "${body.content}", '${body.img_src}', '${body.Id_theme}', false)`);
+        res.json({data: body, result: true, message:"body del a requete"});
+    }
+    else
+    {
+        if (req.headers["content-type"]=="addCategory")
+        {
+            // console.log("else OK");
+            const result = await db.query
+            (`INSERT INTO theme (title, description, img_src, isDeleted) VALUES ("${body.title}", "${body.description}", '${body.img_src}', false)`);
+            res.json({data: body, result: true, message:"body del a requete"});
+        }
+
+    }
+    
+});
 
 const PORT = 5000;
 app.listen(PORT, ()=>{
