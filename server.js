@@ -47,24 +47,28 @@ app.get('/product/:id', async (req, res) => {
 app.post('/', async (req, res) => {
     const body = req.body;
 
-    if (req.headers["content-type"]=="addProduct")
+    if (body.queFaire=="addProduct")
     {
-        // console.log("if OK");
+        console.log("if OK");
         const result = await db.query
         (`INSERT INTO product (title, content, img_src, theme_id, isDeleted) VALUES ("${body.title}", "${body.content}", '${body.img_src}', '${body.Id_theme}', false)`);
         res.json({data: body, result: true, message:"body del a requete"});
     }
     else
     {
-        if (req.headers["content-type"]=="addCategory")
+        if (body.queFaire=="addCategory")
         {
-            // console.log("else OK");
+            console.log("else OK");
             const result = await db.query
             (`INSERT INTO theme (title, description, img_src, isDeleted) VALUES ("${body.title}", "${body.description}", '${body.img_src}', false)`);
             res.json({data: body, result: true, message:"body del a requete"});
         }
 
     }
+
+    // const result = await db.query
+    // (`INSERT INTO product (title, content, img_src, theme_id, isDeleted) VALUES ("${body.title}", "${body.content}", '${body.img_src}', '${body.Id_theme}', false)`);
+    // res.json({data: body, result: true, message:"body del a requete"});
     
 });
 
