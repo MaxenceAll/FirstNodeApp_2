@@ -13,7 +13,7 @@ async function connect(){
                 database: "tpmvc"
             }
         );
-    }
+    } 
     return db;
 }
 
