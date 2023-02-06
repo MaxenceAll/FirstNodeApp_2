@@ -45,33 +45,30 @@ app.get('/product/:id', async (req, res) => {
     res.json( result );
 });
 
-app.post('/', async (req, res) => {
-    const body = req.body;
+// app.post('/', async (req, res) => {
+//     const body = req.body;
 
-    if (body.queFaire=="addProduct")
-    {
-        console.log("if OK");
-        const result = await db.query
-        (`INSERT INTO product (title, content, img_src, Id_theme, isDeleted) VALUES ("${body.title}", "${body.content}", '${body.img_src}', '${body.Id_theme}', false)`);
-        res.json({data: body, result: true, message:"Ajout d'un produit avec success"});
-    }
-    else
-    {
-        if (req.headers["content-type"]=="addCategory")
-        {
-            console.log("else OK");
-            const result = await db.query
-            (`INSERT INTO theme (title, description, img_src, isDeleted) VALUES ("${body.title}", "${body.description}", '${body.img_src}', false)`);
-            res.json({data: body, result: true, message:"Ajout d'un theme avec success"});
-        }
+//     if (body.queFaire=="addProduct")
+//     {
+//         console.log("if OK");
+//         const result = await db.query
+//         (`INSERT INTO product (title, content, img_src, Id_theme, isDeleted) VALUES ("${body.title}", "${body.content}", '${body.img_src}', '${body.Id_theme}', false)`);
+//         res.json({data: body, result: true, message:"Ajout d'un produit avec success"});
+//     }
+//     else
+//     {
+//         if (req.headers["content-type"]=="addCategory")
+//         {
+//             console.log("else OK");
+//             const result = await db.query
+//             (`INSERT INTO theme (title, description, img_src, isDeleted) VALUES ("${body.title}", "${body.description}", '${body.img_src}', false)`);
+//             res.json({data: body, result: true, message:"Ajout d'un theme avec success"});
+//         }
 
-    }
+//     }    
+// });
 
-    // const result = await db.query
-    // (`INSERT INTO product (title, content, img_src, theme_id, isDeleted) VALUES ("${body.title}", "${body.content}", '${body.img_src}', '${body.Id_theme}', false)`);
-    // res.json({data: body, result: true, message:"body del a requete"});
-    
-});
+
 
 //methode laurent:
 // app.post("/category", async (req, res) => {
@@ -82,14 +79,14 @@ app.post('/', async (req, res) => {
 //     res.json({data: inserted, result: true, message: `category inserted with id = ${inserted.id}`});
 // });
 
-// app.post("/product", async (req, res) => {
-//     //créer un procuct en db
-//     const {title, price, description, image, category_id} = req.body;
-//     const data = await db.query(`INSERT INTO product (title, price, description, image, category_id) 
-//                                     VALUES ('${title}', '${price}', '${description}', '${image}', '${category_id}')`);
-//     const inserted = {id:data.insertId, title, price, description, image, category_id};
-//     res.json({data: inserted, result: true, message: `product inserted with id = ${inserted.id}`});
-// });
+app.post("/product", async (req, res) => {
+    //créer un procuct en db
+    const {title, content, img_src, Id_theme, isDeleted} = req.body;
+    const data = await db.query(`INSERT INTO product (title, content, img_src, Id_theme, isDeleted) 
+                                    VALUES ('${title}', '${content}', '${img_src}', '${Id_theme}' , '0')`);
+    const inserted = {id:data.insertId, title, content, img_src, Id_theme};
+    res.json({data: inserted, result: true, message: `product inserted with id = ${inserted.id}`});
+});
 
 app.put('/theme/:id', async (req, res) => {
 // maj cat ayant id:id
@@ -104,7 +101,7 @@ app.put('/product/:id', async (req, res) => {
     const body = req.body;  
     // REQUEST SQL UPDATE
     const data = await db.query(`UPDATE product SET title="${body.title}", content="${body.content}", img_src="${body.img_src}", Id_theme=${body.Id_theme}, isDeleted="${body.isDeleted}" WHERE id="${body.id}" `);
-    res.json({data: body, result: true, message:`Modification du theme ayant id='${body.id}'`});
+    res.json({data: body, result: true, message:`Modification du produit ayant id='${body.id}'`});
 
 });
 
